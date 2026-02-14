@@ -5,7 +5,6 @@ import { connectDB } from "@/lib/db";
 import UserReview from "@/models/UserReview";
 import Booking from "@/models/Booking";
 import { auth } from "@/auth";
-import { IItem } from "@/types";
 
 export async function submitUserReview(formData: FormData) {
   try {
