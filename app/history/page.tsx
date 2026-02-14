@@ -76,14 +76,17 @@ export default function HistoryPage() {
       <div className="space-y-4">
         {activeTab === "borrowed" ? (
           history.borrowed.length === 0 ? (
-            <p className="text-gray-500">You haven't borrowed any items yet.</p>
+            <p className="text-gray-500">
+              You haven&apos;t borrowed any items yet.
+            </p>
           ) : (
-            history.borrowed.map((booking) => (
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            history.borrowed.map((booking: any) => (
               <div
                 key={booking._id}
                 className="bg-white p-4 rounded-xl border flex flex-col md:flex-row gap-4 items-start md:items-center"
               >
-                <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-gray-100 shrink-0">
                   {booking.item.images?.[0] && (
                     <Image
                       src={booking.item.images[0]}
@@ -135,14 +138,14 @@ export default function HistoryPage() {
             ))
           )
         ) : history.lent.length === 0 ? (
-          <p className="text-gray-500">You haven't lent any items yet.</p>
+          <p className="text-gray-500">You haven&apos;t lent any items yet.</p>
         ) : (
           history.lent.map((booking) => (
             <div
               key={booking._id}
               className="bg-white p-4 rounded-xl border flex flex-col md:flex-row gap-4 items-start md:items-center"
             >
-              <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+              <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-gray-100 shrink-0">
                 {booking.item.images?.[0] && (
                   <Image
                     src={booking.item.images[0]}

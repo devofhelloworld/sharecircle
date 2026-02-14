@@ -10,6 +10,9 @@ import { IItem } from "@/types";
 export async function submitUserReview(formData: FormData) {
   try {
     const session = await auth();
+    if (!session?.user?.id) {
+      return { success: false, error: "Unauthorized" };
+    }
     const reviewerId = session.user.id;
     const targetUserId = formData.get("targetUserId") as string; // The borrower
     const bookingId = formData.get("bookingId") as string;

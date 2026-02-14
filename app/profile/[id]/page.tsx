@@ -90,7 +90,8 @@ export default async function ProfilePage({
           </div>
         ) : (
           <div className="grid gap-4">
-            {reviews.map((review: unknown) => (
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {reviews.map((review: any) => (
               <div
                 key={review._id}
                 className="bg-white p-4 rounded-xl border shadow-sm"
