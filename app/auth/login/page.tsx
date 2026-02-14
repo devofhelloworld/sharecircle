@@ -28,9 +28,7 @@ export default function SignInPage() {
     // If we get here, check if result.success is true
     if (result && !result.success) {
       setError(result.error || "Login failed");
-    } else {
-      router.refresh();
-      router.push("/");
+      window.location.href = "/";
     }
     setLoading(false);
   }
@@ -49,8 +47,7 @@ export default function SignInPage() {
         setError(loginResult.error || "Google sign-in failed");
         setGoogleLoading(false);
       } else {
-        router.refresh();
-        router.push("/");
+        window.location.href = "/";
       }
     } catch (err: unknown) {
       const code = (err as { code?: string })?.code;

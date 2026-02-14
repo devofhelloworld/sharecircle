@@ -24,12 +24,12 @@ function UserContextBridge({ children }: { children: ReactNode }) {
 
   const currentUser = session?.user
     ? {
-        _id: session.user.id,
-        name: session.user.name,
-        email: session.user.email,
-        image: session.user.image,
-        credits: (session.user as any).credits ?? 50,
-      }
+      _id: session.user.id,
+      name: session.user.name,
+      email: session.user.email,
+      image: session.user.image,
+      credits: (session.user as any).credits ?? 0,
+    }
     : null;
 
   return (

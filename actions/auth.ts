@@ -113,7 +113,7 @@ export async function registerUser(formData: FormData) {
       name: name.trim(),
       email: email.toLowerCase().trim(),
       password: hashedPassword,
-      credits: 50,
+      credits: 0,
     });
 
     return { success: true };

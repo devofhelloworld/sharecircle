@@ -36,8 +36,7 @@ export default function SignUpPage() {
     if (signInResult && !signInResult.success) {
       router.push("/auth/login");
     } else {
-      router.refresh();
-      router.push("/");
+      window.location.href = "/";
     }
     setLoading(false);
   }
@@ -55,8 +54,7 @@ export default function SignUpPage() {
         setError(loginResult.error || "Google sign-in failed");
         setGoogleLoading(false);
       } else {
-        router.refresh();
-        router.push("/");
+        window.location.href = "/";
       }
     } catch (err: unknown) {
       const code = (err as { code?: string })?.code;
