@@ -1,65 +1,103 @@
-import Image from "next/image";
+import { getItems } from "@/actions/item";
+import ItemCard from "@/components/ui/ItemCard";
+import { Search, Sparkles } from "lucide-react";
 
-export default function Home() {
+const CATEGORIES = ["All", "Tools", "Electronics", "Kitchen", "Garden", "Sports", "Books", "Other"];
+
+interface HomeProps {
+  searchParams: Promise<{ category?: string; search?: string }>;
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+  const params = await searchParams;
+  const activeCategory = params.category || "All";
+  const searchQuery = params.search || "";
+  const items = await getItems(activeCategory, searchQuery);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="space-y-8">
+      {/* Hero */}
+      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-600 via-teal-700 to-emerald-800 px-6 py-12 text-white sm:px-12 sm:py-16">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iNCIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
+        <div className="relative space-y-4">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5" />
+            <span className="text-sm font-medium text-teal-200">Community Sharing Platform</span>
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+            Borrow from neighbors,<br />
+            <span className="text-teal-200">not from stores.</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="max-w-lg text-teal-100">
+            ShareCircle connects you with neighbors who have the tools and equipment you need.
+            Save money, reduce waste, build community.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Search + Filter */}
+      <div className="space-y-4">
+        <form className="relative">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+          <input
+            type="text"
+            name="search"
+            defaultValue={searchQuery}
+            placeholder="Search items..."
+            className="w-full rounded-lg border border-zinc-200 bg-white py-2.5 pl-10 pr-4 text-sm outline-none transition-colors focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+          />
+          {activeCategory !== "All" && (
+            <input type="hidden" name="category" value={activeCategory} />
+          )}
+        </form>
+
+        <div className="flex flex-wrap gap-2">
+          {CATEGORIES.map((cat) => (
+            <a
+              key={cat}
+              href={`/?category=${cat}${searchQuery ? `&search=${searchQuery}` : ""}`}
+              className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${activeCategory === cat
+                ? "bg-teal-600 text-white"
+                : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
+                }`}
+            >
+              {cat}
+            </a>
+          ))}
         </div>
-      </main>
+      </div>
+
+      {/* Items Grid */}
+      {items.length > 0 ? (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+          {items.map((item: any) => (
+            <ItemCard
+              key={item._id}
+              id={item._id}
+              title={item.title}
+              description={item.description}
+              price={item.price}
+              category={item.category}
+              images={item.images}
+              available={item.available}
+              ownerName={item.owner?.name}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-zinc-200 py-16 dark:border-zinc-800">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800">
+            <Search className="h-7 w-7 text-zinc-400" />
+          </div>
+          <h3 className="mt-4 text-lg font-semibold text-zinc-700 dark:text-zinc-300">
+            No items yet
+          </h3>
+          <p className="mt-1 text-sm text-zinc-500">
+            Be the first to list an item for your community!
+          </p>
+        </div>
+      )}
     </div>
   );
 }

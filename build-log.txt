@@ -1,0 +1,25 @@
+
+> sharecircle@0.1.0 build
+> next build
+
+Γû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env
+
+ΓÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 6.8s
+  Running TypeScript ...
+Failed to compile.
+
+./auth.ts:96:18
+Type error: Conversion of type 'AdapterUser & User' to type 'Record<string, unknown>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Index signature for type 'string' is missing in type 'AdapterUser & User'.
+
+  94 |             if (token.userId) {
+  95 |                 session.user.id = token.userId as string;
+> 96 |                 (session.user as Record<string, unknown>).credits = token.credits;
+     |                  ^
+  97 |             }
+  98 |             return session;
+  99 |         },
+Next.js build worker exited with code: 1 and signal: null
