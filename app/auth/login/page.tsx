@@ -25,9 +25,12 @@ export default function SignInPage() {
     const formData = new FormData(e.currentTarget);
     const result = await loginUser(formData);
 
-    // If we get here, signIn didn't redirect — must be an error
+    // If we get here, check if result.success is true
     if (result && !result.success) {
       setError(result.error || "Login failed");
+    } else {
+      router.refresh();
+      router.push("/");
     }
     setLoading(false);
   }
@@ -41,10 +44,13 @@ export default function SignInPage() {
       const idToken = await result.user.getIdToken();
       const loginResult = await loginWithGoogle(idToken);
 
-      // If we get here, signIn didn't redirect — must be an error
+      // If we get here, check if result.success is true
       if (loginResult && !loginResult.success) {
         setError(loginResult.error || "Google sign-in failed");
         setGoogleLoading(false);
+      } else {
+        router.refresh();
+        router.push("/");
       }
     } catch (err: unknown) {
       const code = (err as { code?: string })?.code;

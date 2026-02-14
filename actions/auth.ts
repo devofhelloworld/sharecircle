@@ -27,7 +27,7 @@ export async function loginUser(formData: FormData) {
     await signIn("credentials", {
       email: email.toLowerCase(),
       password,
-      redirectTo: "/",
+      redirect: false,
     });
 
     return { success: true };
@@ -55,7 +55,7 @@ export async function loginWithGoogle(idToken: string) {
 
     await signIn("firebase-google", {
       idToken,
-      redirectTo: "/",
+      redirect: false,
     });
 
     return { success: true };

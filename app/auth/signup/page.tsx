@@ -32,9 +32,12 @@ export default function SignUpPage() {
     // Auto sign-in after registration — will redirect to / on success
     const signInResult = await loginUser(formData);
 
-    // If we get here, signIn didn't redirect — something went wrong
+    // If we get here, check if result.success is true
     if (signInResult && !signInResult.success) {
       router.push("/auth/login");
+    } else {
+      router.refresh();
+      router.push("/");
     }
     setLoading(false);
   }
@@ -51,6 +54,9 @@ export default function SignUpPage() {
       if (loginResult && !loginResult.success) {
         setError(loginResult.error || "Google sign-in failed");
         setGoogleLoading(false);
+      } else {
+        router.refresh();
+        router.push("/");
       }
     } catch (err: unknown) {
       const code = (err as { code?: string })?.code;
