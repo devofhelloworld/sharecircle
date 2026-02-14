@@ -8,6 +8,7 @@ import Button from "@/components/ui/Button";
 import { ClipboardList, ArrowRightLeft, Package } from "lucide-react";
 import { format } from "date-fns";
 import type { BookingStatus } from "@/types";
+import ReviewModal from "@/components/ReviewModal";
 
 const STATUS_VARIANTS: Record<string, "warning" | "success" | "info" | "danger" | "default"> = {
     pending: "warning",
@@ -24,6 +25,8 @@ export default function BookingsPage() {
     const [lent, setLent] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<"borrowed" | "lent">("borrowed");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [reviewingItem, setReviewingItem] = useState<any>(null);
 
     useEffect(() => {
         async function load() {
@@ -147,6 +150,15 @@ export default function BookingsPage() {
                                         Mark Returned
                                     </Button>
                                 )}
+                                {activeTab === "borrowed" && b.status === "returned" && (
+                                    <Button
+                                        variant="secondary"
+                                        onClick={() => setReviewingItem(b)}
+                                        className="text-xs px-3 py-1.5"
+                                    >
+                                        Review
+                                    </Button>
+                                )}
                             </div>
                         </div>
                     ))}
@@ -165,6 +177,15 @@ export default function BookingsPage() {
                             : "List an item and wait for requests."}
                     </p>
                 </div>
+            )}
+            {reviewingItem && currentUser && (
+                <ReviewModal
+                    itemId={reviewingItem.item._id}
+                    itemTitle={reviewingItem.item.title}
+                    userId={currentUser._id}
+                    onClose={() => setReviewingItem(null)}
+                    onSuccess={() => setReviewingItem(null)}
+                />
             )}
         </div>
     );

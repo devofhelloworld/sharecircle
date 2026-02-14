@@ -2,8 +2,6 @@
 
 **ShareCircle** is a community-driven platform designed to facilitate item sharing among neighbors. By borrowing instead of buying, users can save money, reduce waste, and build stronger local communities.
 
-![ShareCircle Welcome](https://via.placeholder.com/800x400?text=ShareCircle+Banner)
-
 ---
 
 ## 🚀 Features
