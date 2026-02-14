@@ -9,7 +9,7 @@ import { ClipboardList, ArrowRightLeft, Package } from "lucide-react";
 import { format } from "date-fns";
 import type { BookingStatus } from "@/types";
 
-const STATUS_VARIANTS: Record<string, "warning" | "success" | "info"> = {
+const STATUS_VARIANTS: Record<string, "warning" | "success" | "info" | "danger" | "default"> = {
     pending: "warning",
     approved: "success",
     returned: "info",

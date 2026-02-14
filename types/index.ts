@@ -26,7 +26,7 @@ export interface IItem extends Document {
 }
 
 // ─── Booking ────────────────────────────────────────────
-export type BookingStatus = "pending" | "approved" | "returned";
+export type BookingStatus = "pending" | "approved" | "returned" | "rejected";
 
 export interface IBooking extends Document {
     item: Types.ObjectId;
